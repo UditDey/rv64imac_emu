@@ -1,0 +1,9 @@
+[package]
+name = "libemu4"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+num_enum = "0.7.4"
+bitfield_macro = { path = "../bitfield_macro" }
+crossterm = "0.29.0"

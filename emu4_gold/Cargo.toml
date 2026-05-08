@@ -1,0 +1,9 @@
+[package]
+name = "emu4_gold"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+libemu4 = { path = "../libemu4" }
+arrow = "56.0.0"
+parquet = "56.0.0"

@@ -1,0 +1,104 @@
+/dts-v1/;
+
+/ {
+    #address-cells = <0x02>;
+    #size-cells = <0x02>;
+    compatible = "riscv-virtio";
+    model = "riscv-virtio,qemu";
+
+    chosen {
+        bootargs = "console=ttyS0 earlycon=sbi";
+        stdout-path = "/soc/uart@10000000";
+
+        linux,initrd-start = <0x0 0xDEADBEEF>; /* TO BE PATCHED!!! */
+        linux,initrd-end   = <0x0 0xFEE1DEAD>; /* TO BE PATCHED!!! */
+    };
+
+    cpus {
+        #address-cells = <0x01>;
+        #size-cells = <0x00>;
+        timebase-frequency = <1000000>;
+
+        cpu-map {
+            cluster0 {
+                core0 {
+                    cpu = <0x01>;
+                };
+            };
+        };
+
+        cpu@0 {
+            phandle = <0x01>;
+            device_type = "cpu";
+            reg = <0x00>;
+            status = "okay";
+            compatible = "riscv";
+            riscv,isa = "rv64imac";
+            mmu-type = "riscv,sv39";
+
+            cpu0_intc: interrupt-controller {
+                #interrupt-cells = <0x01>;
+                interrupt-controller;
+                compatible = "riscv,cpu-intc";
+                phandle = <0x02>;
+            };
+        };
+    };
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x0 0xBADC0DE>; /* TO BE PATCHED!!! */
+	};
+
+    syscon: syscon@11100000 {
+        phandle = <0x4>;
+        reg = <0x00 0x11100000 0x00 0x1000>;
+        compatible = "sifive,test1\0sifive,test0\0syscon\0";
+    };
+
+    poweroff {
+        value = <0x5555>;
+        offset = <0x00>;
+        regmap = <&syscon>;
+        compatible = "syscon-poweroff";
+    };
+
+    reboot {
+        value = <0x7777>;
+        offset = <0x00>;
+        regmap = <&syscon>;
+        compatible = "syscon-reboot";
+    };
+
+    soc {
+        #address-cells = <0x02>;
+        #size-cells = <0x02>;
+        compatible = "simple-bus";
+        ranges;
+
+        plic0: interrupt-controller@c000000 {
+            phandle = <0x03>;
+            riscv,ndev = <0x1>;
+            reg = <0x00 0xc000000 0x00 0x4000000>;
+            interrupts-extended = <&cpu0_intc 0x0b &cpu0_intc 0x09>;
+            interrupt-controller;
+            compatible = "riscv,plic0";
+            #interrupt-cells = <0x01>;
+            #address-cells = <0x00>;
+        };
+
+        clint@2000000 {
+            interrupts-extended = <&cpu0_intc 0x03 &cpu0_intc 0x07>;
+            reg = <0x00 0x2000000 0x00 0x10000>;
+            compatible = "riscv,clint0";
+        };
+
+        uart@10000000 {
+            interrupts = <0x1>;
+            interrupt-parent = <&plic0>;
+            clock-frequency = <0x384000>;
+            reg = <0x0 0x10000000 0x0 0x100>;
+            compatible = "ns16550a";
+        };
+    };
+};
