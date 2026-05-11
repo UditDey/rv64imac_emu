@@ -1,9 +1,3 @@
-//! Sv39 Software MMU – reference implementation (no TLB)
-//! =====================================================
-//! * ISA: RISC‑V Privileged Specification v1.12, §4.3.2 (Sv39)
-//! * Scope: functional page‑table walk with precise side‑effects (A/D bits)
-//! * Only critical fixes applied compared with the previous revision.
-
 use crate::{
     CpuMode,
     bus::{Bus, BusTxSize},

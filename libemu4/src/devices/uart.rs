@@ -1,11 +1,3 @@
-//! LLM WRITTEN !!!
-//!
-//! Very-small 8250/16550 model
-//! – 8-bit register spacing (reg-shift = 0)
-//! – one PLIC source `UART_IRQ_ID`
-//! – RX 16-byte FIFO, immediate TX “send”
-//! – implements THR/RBR, IER, IIR/FCR, LCR, LSR, MCR, MSR, DLL/DLH
-
 use std::{
     collections::VecDeque,
     io::{Read, Write},
