@@ -49,7 +49,7 @@ impl Uart {
 
     /* ---- constructor -------------------------------------------------- */
     pub fn new() -> Self {
-        //crossterm::terminal::enable_raw_mode().unwrap();
+        crossterm::terminal::enable_raw_mode().unwrap();
 
         let (tx, rx) = std::sync::mpsc::channel();
         std::thread::spawn(move || {

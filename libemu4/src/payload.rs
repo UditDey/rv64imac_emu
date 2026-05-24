@@ -2,7 +2,7 @@ use crate::{Cpu, devices::ram::Ram};
 
 const OPEN_SBI_PAYLOAD: &[u8] =
     include_bytes!("../../third_party/buildroot/output/images/fw_payload.bin");
-const INITRD: &[u8] = include_bytes!("../../third_party/buildroot/output/images/rootfs.cpio.gz");
+const INITRD: &[u8] = include_bytes!("../../third_party/buildroot/output/images/rootfs.cpio");
 const DEVICE_TREE: &[u8] = include_bytes!("../../device_tree.dtb");
 
 pub const BOOT_VECTOR: u64 = Ram::BASE_ADDR;

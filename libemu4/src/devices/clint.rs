@@ -28,10 +28,10 @@ impl Clint {
     }
 
     pub fn load(&self, addr: u64, size: BusTxSize) -> u64 {
-        assert!(size == BusTxSize::Bits64);
+        assert!(size == BusTxSize::Bits32 || size == BusTxSize::Bits64);
 
         match addr {
-            Self::MSIP_ADDR => self.msip,
+            Self::MSIP_ADDR => self.msip & 0xFFFFFFFF,
             Self::MTIMECMP_ADDR => self.mtimecmp,
             Self::MTIME_ADDR => self.mtime,
             _ => panic!(),

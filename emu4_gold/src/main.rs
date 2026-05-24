@@ -1,5 +1,5 @@
-mod cosim;
-mod tracer;
+//mod cosim;
+//mod tracer;
 
 use std::time::Instant;
 
@@ -11,7 +11,7 @@ use libemu4::{
 };
 
 //use cosim::Cosim;
-use tracer::Tracer;
+//use tracer::Tracer;
 
 fn main() {
     println!("emu4: Booting...");
@@ -21,7 +21,7 @@ fn main() {
     //let mut cosim = Cosim::new(&cpu.bus);
     let init_time = Instant::now();
 
-    let mut tracer = Tracer::new();
+    //let mut tracer = Tracer::new();
 
     loop {
         if cpu.bus.syscon.power_off {
@@ -72,7 +72,7 @@ fn main() {
             } else {
                 match decode::decode(instr_raw) {
                     Some(instr) => {
-                        tracer.trace(instr, cpu.csr.cycle(), cpu.pc, &cpu.regs);
+                        //tracer.trace(instr, cpu.csr.cycle(), cpu.pc, &cpu.regs);
                         exec::exec(&mut cpu, &instr, instr_raw);
                         Some(instr)
                     }
@@ -103,5 +103,5 @@ fn main() {
         //cosim.compare_states(cpu.pc, cpu.mode, &cpu.regs, &cpu.csr, &cpu.bus, &instr);
     }
 
-    tracer.finish();
+    //tracer.finish();
 }

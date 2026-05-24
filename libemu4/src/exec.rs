@@ -59,7 +59,7 @@ pub fn exec(cpu: &mut Cpu, instr: &Instr, instr_raw: u32) {
 
             let rs_1 = cpu.regs[rs_1];
             cpu.regs[rd] = cpu.pc + instr.instr_size as u64;
-            cpu.pc = rs_1 + imm - instr.instr_size as u64;
+            cpu.pc = ((rs_1 + imm) & !1) - instr.instr_size as u64;
         }
 
         InstrOp::BranchIfEquals => {
@@ -293,7 +293,7 @@ pub fn exec(cpu: &mut Cpu, instr: &Instr, instr_raw: u32) {
 
                     match (op_1, op_2) {
                         (_, 0) => !0,
-                        (op_1, op_2) => (op_1 / op_2) as u64,
+                        (op_1, op_2) => (op_1 / op_2) as i32 as i64 as u64,
                     }
                 }
                 _ => panic!(),
@@ -344,15 +344,15 @@ pub fn exec(cpu: &mut Cpu, instr: &Instr, instr_raw: u32) {
                     }
                 }
                 OpWidth::DoubleWordUnsigned => match (op_1, op_2) {
-                    (_, 0) => !0,
+                    (_, 0) => op_1,
                     (op_1, op_2) => op_1 % op_2,
                 },
                 OpWidth::WordUnsigned => {
                     let (op_1, op_2) = (op_1 as u32, op_2 as u32);
 
                     match (op_1, op_2) {
-                        (_, 0) => !0,
-                        (op_1, op_2) => (op_1 % op_2) as u64,
+                        (_, 0) => op_1 as i32 as i64 as u64,
+                        (op_1, op_2) => (op_1 % op_2) as i32 as i64 as u64,
                     }
                 }
                 _ => panic!(),
@@ -758,24 +758,24 @@ pub fn exec(cpu: &mut Cpu, instr: &Instr, instr_raw: u32) {
 
             match instr.op_width {
                 OpWidth::DoubleWord => {
-                    let new = (original as i64).max(cpu.regs[rs_2] as i64);
+                    let new = (original as i64).min(cpu.regs[rs_2] as i64);
                     cpu.regs[rd] = original;
                     cpu.bus.store(addr, new as u64, BusTxSize::Bits64).unwrap();
                 }
                 OpWidth::DoubleWordUnsigned => {
-                    let new = original.max(cpu.regs[rs_2]);
+                    let new = original.min(cpu.regs[rs_2]);
                     cpu.regs[rd] = original;
                     cpu.bus.store(addr, new, BusTxSize::Bits64).unwrap();
                 }
                 OpWidth::Word => {
-                    let new = (original as u32 as i32).max(cpu.regs[rs_2] as u32 as i32);
+                    let new = (original as u32 as i32).min(cpu.regs[rs_2] as u32 as i32);
                     cpu.regs[rd] = original;
                     cpu.bus
                         .store(addr, new as u32 as u64, BusTxSize::Bits32)
                         .unwrap();
                 }
                 OpWidth::WordUnsigned => {
-                    let new = (original as u32).max(cpu.regs[rs_2] as u32);
+                    let new = (original as u32).min(cpu.regs[rs_2] as u32);
                     cpu.regs[rd] = original;
                     cpu.bus.store(addr, new as u64, BusTxSize::Bits32).unwrap();
                 }
@@ -808,24 +808,24 @@ pub fn exec(cpu: &mut Cpu, instr: &Instr, instr_raw: u32) {
 
             match instr.op_width {
                 OpWidth::DoubleWord => {
-                    let new = (original as i64).min(cpu.regs[rs_2] as i64);
+                    let new = (original as i64).max(cpu.regs[rs_2] as i64);
                     cpu.regs[rd] = original;
                     cpu.bus.store(addr, new as u64, BusTxSize::Bits64).unwrap();
                 }
                 OpWidth::DoubleWordUnsigned => {
-                    let new = original.min(cpu.regs[rs_2]);
+                    let new = original.max(cpu.regs[rs_2]);
                     cpu.regs[rd] = original;
                     cpu.bus.store(addr, new, BusTxSize::Bits64).unwrap();
                 }
                 OpWidth::Word => {
-                    let new = (original as u32 as i32).min(cpu.regs[rs_2] as u32 as i32);
+                    let new = (original as u32 as i32).max(cpu.regs[rs_2] as u32 as i32);
                     cpu.regs[rd] = original;
                     cpu.bus
                         .store(addr, new as u32 as u64, BusTxSize::Bits32)
                         .unwrap();
                 }
                 OpWidth::WordUnsigned => {
-                    let new = (original as u32).min(cpu.regs[rs_2] as u32);
+                    let new = (original as u32).max(cpu.regs[rs_2] as u32);
                     cpu.regs[rd] = original;
                     cpu.bus.store(addr, new as u64, BusTxSize::Bits32).unwrap();
                 }

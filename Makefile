@@ -1,7 +1,7 @@
 .PHONY: build dtb libcosim buildroot spike
 .PHONY: clean clean_dtb clean_libcosim clean_buildroot clean_spike
 
-build: dtb libcosim buildroot spike
+build: dtb buildroot
 clean: clean_dtb clean_libcosim clean_buildroot clean_spike
 
 dtb: device_tree.dtb

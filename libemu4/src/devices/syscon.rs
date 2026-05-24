@@ -35,6 +35,6 @@ impl Syscon {
             _ => {} // ignore anything else
         }
 
-        //crossterm::terminal::disable_raw_mode().unwrap();
+        crossterm::terminal::disable_raw_mode().unwrap();
     }
 }

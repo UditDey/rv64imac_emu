@@ -1,5 +1,5 @@
 fn main() {
-    println!("cargo:rerun-if-changed=../libcosim/libcosim.a");
+    /*println!("cargo:rerun-if-changed=../libcosim/libcosim.a");
     println!("cargo:rerun-if-changed=../third_party/riscv-isa-sim/build/libriscv.a");
 
     println!("cargo:rustc-link-search=native=../libcosim");
@@ -10,5 +10,5 @@ fn main() {
     println!("cargo:rustc-link-lib=static=fesvr");
     println!("cargo:rustc-link-lib=static=disasm");
     println!("cargo:rustc-link-lib=static=softfloat");
-    println!("cargo:rustc-link-lib=dylib=stdc++");
+    println!("cargo:rustc-link-lib=dylib=stdc++");*/
 }

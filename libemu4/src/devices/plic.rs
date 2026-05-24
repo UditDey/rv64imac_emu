@@ -161,10 +161,10 @@ impl Plic {
 
     /// Drive MEIP/SEIP bits in `mip` based on current state
     pub fn poll_interrupts(&self, csr: &mut Csr) {
-        let m_pending = (self.pending || self.in_service)
+        let m_pending = self.pending
             && self.enable[0]
             && (self.prio_src1 > self.threshold[0]);
-        let s_pending = (self.pending || self.in_service)
+        let s_pending = self.pending
             && self.enable[1]
             && (self.prio_src1 > self.threshold[1]);
 

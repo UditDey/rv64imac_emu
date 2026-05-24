@@ -384,7 +384,7 @@ impl Csr {
         };
 
         if !valid {
-            return Some(());
+            return None;
         }
 
         match name {
@@ -469,7 +469,8 @@ impl Csr {
     pub fn update_mstatus(&mut self, f: impl Fn(&mut MStatus)) {
         let mut mstatus = MStatus::from_bits(self.mstatus);
         f(&mut mstatus);
-        self.mstatus = mstatus.as_bits();
+        self.mstatus =
+            (self.mstatus & !MStatus::VALID_MASK) | (mstatus.as_bits() & MStatus::VALID_MASK);
     }
 
     pub fn mip(&self) -> MInterruptPending {
