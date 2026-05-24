@@ -8,6 +8,11 @@ This is a complete application-class single-core RISC-V emulator running OpenSBI
 - Additional peripherals (UART and generic Linux Syscon)
 - Cosimulation shim using [Spike](https://github.com/riscv-software-src/riscv-isa-sim) used to debug issues and maintain parity
 
+<br>
+
+![Boot Image](emu_ss.png)
+<br>
+
 ## Overview
 The core simulation code is in [`libemu4`](libemu4):
 - [`lib.rs`](libemu4/src/lib.rs): Contains the top-level CPU struct
