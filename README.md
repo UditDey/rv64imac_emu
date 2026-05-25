@@ -29,7 +29,12 @@ The core simulation code is in [`libemu4`](libemu4):
 > Spike cosimulation is currently commented out. I will add a proper CLI arg switch for it and re-enable it
 
 ## Building and Running
-First run:
+Update `third_party` submodules using:
+```
+git submodule update --init --recursive
+```
+
+Then run:
 ```
 make build
 ```
