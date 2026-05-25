@@ -17,7 +17,7 @@ clean_libcosim:
 
 buildroot:
 	cp buildroot.cfg third_party/buildroot/.config
-	export PATH="/bin" && $(MAKE) -C third_party/buildroot BR2_JLEVEL=3
+	$(MAKE) -C third_party/buildroot
 clean_buildroot:
 	$(MAKE) -C third_party/buildroot clean
 
