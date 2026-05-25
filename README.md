@@ -29,13 +29,13 @@ The core simulation code is in [`libemu4`](libemu4):
 > Spike cosimulation is currently commented out. I will add a proper CLI arg switch for it and re-enable it
 
 ## Building and Running
-Get buildroot and its build dependencies:
+After cloning the repo:
 ```
 git submodule update --init --recursive
 
 sudo apt-get install \
   build-essential bc cpio rsync unzip wget perl \
-  python3 libncurses5-dev git
+  python3 libncurses5-dev device-tree-compiler
 ```
 
 Then run:
